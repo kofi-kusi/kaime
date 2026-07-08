@@ -1,8 +1,9 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pathlib import Path
 
 _base_config = SettingsConfigDict(
-        env_file= ".env",
-        env_ignore_empty=True,
+    env_file= Path(__file__).parent.parent.parent / ".env",
+    env_ignore_empty=True,
         extra="ignore",
     )
 
@@ -31,7 +32,7 @@ class DatabaseSettings(BaseSettings):
     model_config = _base_config
     @property
     def POSTGRES_URL(self):
-        return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        return f"postgresql+psycopg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
     
     
 
