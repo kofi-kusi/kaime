@@ -1,6 +1,6 @@
-from sqlmodel import Session, select
+from sqlmodel import Session, delete, select
 
-from app.models import Event, Subscriber
+from app.models import Event, NotificationDispatch, Subscriber
 
 
 class AcademicRepository:
@@ -36,6 +36,12 @@ class AcademicRepository:
         return self.session.get(Event, event_id)
 
     def delete_event(self, event: Event) -> None:
+        if event.id is not None:
+            self.session.exec(
+                delete(NotificationDispatch).where(
+                    NotificationDispatch.event_id == event.id
+                )
+            )
         self.session.delete(event)
         self.session.commit()
 
