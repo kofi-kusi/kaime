@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from sqlmodel import Session
+from scalar_fastapi import get_scalar_api_reference
 
 from app.core.config import notification_settings
 from app.core.session import engine
@@ -52,7 +53,8 @@ async def lifespan(app: FastAPI):
     logger.info("Application shutdown complete")
 
 
-app = FastAPI(lifespan=lifespan, title="Academic Notification Service")
+app = FastAPI(lifespan=lifespan, title="Academic Notification Service", docs_url=None, redoc_url=None)
+
 app.include_router(subscribers_router)
 app.include_router(events_router)
 
@@ -61,6 +63,9 @@ app.include_router(events_router)
 def main():
     return {"message": "Academic notification service is running"}
 
+@app.get("/docs", include_in_schema=False)
+def get_scalar_docs():
+    return get_scalar_api_reference(openapi_url=app.openapi_url)
 
 @app.post("/internal/notifications/run")
 async def run_notifications_now():
