@@ -56,3 +56,5 @@ curl -X POST http://localhost:8000/internal/notifications/run
   - `PATCH /events/{event_id}/activate`
   - `PATCH /events/{event_id}/deactivate`
   - `DELETE /events/{event_id}`
+
+When creating or updating events, `email_template` is restricted to the built-in template enum values (for example `event_reminder.html`, `exam_reminder.html`, `deadline_reminder.html`, `registration_open.html`).
