@@ -1,39 +1,29 @@
 from typing import Any
 
-from config import notification_settings
-from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
-from pydantic import BaseModel, NameEmail
-from utils import TEMPLATE_DIR
+from pydantic import BaseModel, EmailStr
+
+from app.core.config import notification_settings
+from app.services.channels.email import EmailNotificationChannel
+from app.services.template_renderer import TemplateRenderer
 
 
 class EmailSchema(BaseModel):
-    email: list[NameEmail]
+    email: list[EmailStr]
     body: dict[str, Any]
 
 
 class NotificationService:
     def __init__(self):
+        self.channel = EmailNotificationChannel(settings=notification_settings)
+        self.renderer = TemplateRenderer(template_dir=notification_settings.TEMPLATE_DIR)
 
-        self.fm = FastMail(
-            ConnectionConfig(
-                **notification_settings.model_dump(),
-                TEMPLATE_FOLDER=TEMPLATE_DIR,
-            ),
-        )
-
-    async def send_email(
-        self,
-        subject: str,
-        email: EmailSchema,
-    ):
-        await self.fm.send_message(
-            message=MessageSchema(
+    async def send_email(self, subject: str, email: EmailSchema):
+        for recipient in email.email:
+            await self.channel.send(
                 subject=subject,
-                recipients=email.model_dump().get("email"),
-                body=email.model_dump().get("body"),
-                subtype=MessageType.plain,
-            ),
-        )
+                recipient=str(recipient),
+                html_body=str(email.body),
+            )
 
     async def send_email_with_template(
         self,
@@ -41,12 +31,11 @@ class NotificationService:
         email: EmailSchema,
         template_name: str,
     ):
-        await self.fm.send_message(
-            message=MessageSchema(
+        for recipient in email.email:
+            payload = email.body | {"student_name": str(recipient).split("@")[0]}
+            html_body = self.renderer.render(template_name, payload)
+            await self.channel.send(
                 subject=subject,
-                recipients=email.model_dump().get("email"),
-                template_body=email.model_dump().get("body"),
-                subtype=MessageType.html,
-            ),
-            template_name=template_name,
-        )
+                recipient=str(recipient),
+                html_body=html_body,
+            )

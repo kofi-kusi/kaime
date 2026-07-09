@@ -1,31 +1,58 @@
-# backend
+# Backend
 
-A project created with FastAPI CLI.
+Academic notification backend using **FastAPI**, **SQLModel/PostgreSQL**, **APScheduler**, and **Jinja2** templates.
 
-## Quick Start
+## Why APScheduler here?
 
-### Start the development server
+APScheduler is the best fit for this service because reminders are time-based, lightweight, and run inside the FastAPI process with no extra broker. It keeps deployment simple while still supporting interval/cron jobs, concurrency controls, and misfire handling.
 
-```bash
-uv run fastapi dev
-```
+For horizontal scaling or heavy queue workloads, migrate the `NotificationChannel` pipeline to Celery workers later without changing the orchestration contract.
 
-Visit http://localhost:8000
+## Quick start
 
-### Deploy to FastAPI Cloud
-
-Sign up and log in at https://fastapicloud.com, then deploy with:
+1. Copy config:
 
 ```bash
-uv run fastapi deploy
+cp .env.example ../.env
 ```
 
-## Project Structure
+1. Start API:
 
-- `main.py` - Your FastAPI application
-- `pyproject.toml` - Project dependencies
+```bash
+uv run fastapi dev app/main.py
+```
 
-## Learn More
+## Notification architecture
 
-- [FastAPI Documentation](https://fastapi.tiangolo.com)
-- [FastAPI Cloud](https://fastapicloud.com)
+- `app/services/notification_service.py` orchestrates due checks, rendering, retries, and idempotency.
+- `app/services/scheduler_service.py` manages periodic execution with APScheduler.
+- `app/services/channels/base.py` defines channel contract for email/SMS/push extensibility.
+- `app/services/channels/email.py` sends email notifications.
+- `app/services/template_renderer.py` renders Jinja2 templates from `app/templates/`.
+- `app/repositories/notification_repository.py` isolates data access and dispatch tracking.
+- `app/main.py` wires scheduler startup/shutdown using FastAPI lifespan.
+
+## Running a manual cycle
+
+Use the internal endpoint to trigger processing immediately:
+
+```bash
+curl -X POST http://localhost:8000/internal/notifications/run
+```
+
+## API endpoints
+
+- Subscribers:
+  - `POST /subscribers`
+  - `GET /subscribers`
+  - `GET /subscribers/{email}`
+  - `PATCH /subscribers/{email}`
+  - `DELETE /subscribers/{email}`
+- Events:
+  - `POST /events`
+  - `GET /events`
+  - `GET /events/{event_id}`
+  - `PATCH /events/{event_id}`
+  - `PATCH /events/{event_id}/activate`
+  - `PATCH /events/{event_id}/deactivate`
+  - `DELETE /events/{event_id}`

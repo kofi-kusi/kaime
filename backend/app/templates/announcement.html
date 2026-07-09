@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <p>Hello {{ student_name }},</p>
+  <p><strong>{{ event_title }}</strong></p>
+  <p>{{ description }}</p>
+  <p>Date: {{ start_date }}</p>
+  {% if end_date %}
+  <p>Valid until: {{ end_date }}</p>
+  {% endif %}
+</body>
+</html>
