@@ -1,6 +1,6 @@
 import logging
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from app.core.config import NotificationSettings
 from app.models import Event, Subscriber
@@ -26,7 +26,7 @@ class NotificationOrchestratorService:
         self.settings = settings
 
     async def process_due_notifications(self, now: datetime | None = None) -> None:
-        current_time = now or datetime.utcnow()
+        current_time = now or datetime.now(tz=timezone.utc)
         lookahead = timedelta(days=self.settings.NOTIFICATION_LOOKAHEAD_DAYS)
         events = self.repository.get_upcoming_events(
             from_dt=current_time,
