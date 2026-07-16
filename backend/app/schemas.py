@@ -1,7 +1,41 @@
 from datetime import datetime
 from enum import StrEnum
+from uuid import UUID
 
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from sqlmodel import SQLModel
+
+
+class UserBase(BaseModel):
+    first_name: str = Field(max_length=100)
+    middle_name: str | None = Field(default=None, max_length=100)
+    last_name: str = Field(max_length=100)
+    email: EmailStr = Field(max_length=255)
+    phone_number: str = Field(max_length=20)
+
+
+class UserIn(UserBase):
+    password: str = Field(min_length=8, max_length=128)
+
+
+class UserOut(UserBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    created_at: datetime | None = Field(default=None)
+
+
+class UserUpdateMe(BaseModel):
+    first_name: str | None = Field(default=None, max_length=100)
+    middle_name: str | None = Field(default=None, max_length=100)
+    last_name: str | None = Field(default=None, max_length=100)
+    email: EmailStr | None = Field(default=None, max_length=255)
+    phone_number: str | None = Field(default=None, max_length=20)
+
+
+class UsersList(BaseModel):
+    users: list[UserOut]
+    count: int
 
 
 class EventEmailTemplate(StrEnum):
