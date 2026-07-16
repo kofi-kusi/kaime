@@ -59,9 +59,7 @@ app.include_router(subscribers_router)
 app.include_router(events_router)
 
 
-@app.get("/")
-def main():
-    return {"message": "Academic notification service is running"}
+app.frontend(path="/", directory="frontend/dist")
 
 @app.get("/docs", include_in_schema=False)
 def get_scalar_docs():
@@ -71,3 +69,4 @@ def get_scalar_docs():
 async def run_notifications_now():
     await run_notification_cycle()
     return {"status": "ok"}
+
