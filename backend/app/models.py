@@ -2,8 +2,33 @@ from datetime import date, datetime, timezone
 from typing import Optional
 from uuid import UUID, uuid4
 
-from sqlalchemy import JSON, Column, UniqueConstraint
+from pydantic import EmailStr
+from sqlalchemy import JSON, Column, DateTime, UniqueConstraint
 from sqlmodel import Field, SQLModel
+
+
+def get_datetime_utc() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+class UserBase(SQLModel):
+    email: EmailStr = Field(unique=True, index=True, max_length=255)
+    phone_number: str = Field(max_length=20)
+    email_verified: bool = Field(default=False)
+    is_active: bool = Field(default=True)
+    password_hash: str = Field(exclude=True)
+
+
+class User(UserBase, table=True):
+    first_name: str = Field(max_length=100)
+    middle_name: str | None = Field(default=None, max_length=100)
+    last_name: str = Field(max_length=100)
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
+    is_superuser: bool = Field(default=False)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),
+    )
 
 
 class Subscriber(SQLModel, table=True):
@@ -17,7 +42,9 @@ class Subscriber(SQLModel, table=True):
 
     @property
     def full_name(self) -> str:
-        joined = " ".join(part for part in [self.surname, self.other_names] if part).strip()
+        joined = " ".join(
+            part for part in [self.surname, self.other_names] if part
+        ).strip()
         return joined or self.name
 
 
@@ -70,5 +97,3 @@ class NotificationDispatch(SQLModel, table=True):
 Subscribers = Subscriber
 Events = Event
 Mock_Subscribers = Subscriber
-
-    
