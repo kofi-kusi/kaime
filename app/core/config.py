@@ -3,10 +3,9 @@ from pathlib import Path
 from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-PROJECT_DIR = BASE_DIR.parent
+PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 _base_config = SettingsConfigDict(
-    env_file=(PROJECT_DIR / ".env", BASE_DIR / ".env"),
+    env_file=PROJECT_DIR / ".env",
     env_ignore_empty=True,
     extra="ignore",
 )
@@ -41,7 +40,7 @@ class NotificationSettings(BaseNotificationSettings):
     NOTIFICATION_RETRY_BACKOFF_SECONDS: int = 3
     NOTIFICATION_TIMEZONE: str = "UTC"
     NOTIFICATION_DEFAULT_OFFSETS: tuple[int, ...] = (7, 3, 1, 0)
-    TEMPLATE_DIR: Path = BASE_DIR / "app" / "templates"
+    TEMPLATE_DIR: Path = PROJECT_DIR / "app" / "templates"
 
     model_config = _base_config
 
