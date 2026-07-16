@@ -140,7 +140,7 @@ class NotificationOrchestratorService:
     @staticmethod
     def _build_subject(event_title: str, days_remaining: int) -> str:
         if days_remaining == 0:
-            return f"Today: {event_title}"
+            return f"Happening Today: {event_title}"
         if days_remaining == 1:
             return f"Reminder: {event_title} starts tomorrow"
         return f"Reminder: {event_title} starts in {days_remaining} days"
