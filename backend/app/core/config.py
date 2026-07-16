@@ -17,7 +17,7 @@ class AppSettings(BaseSettings):
     APP_DOMAIN: str = "http://localhost:8000"
 
 
-class NotificationSettings(BaseSettings):
+class BaseNotificationSettings(BaseSettings):
     MAIL_USERNAME: str
     MAIL_PASSWORD: str
     MAIL_FROM: str
@@ -29,6 +29,12 @@ class NotificationSettings(BaseSettings):
     USE_CREDENTIALS: bool = True
     VALIDATE_CERTS: bool = True
 
+
+class UserNotificationSettings(BaseNotificationSettings):
+    model_config = _base_config
+
+
+class NotificationSettings(BaseNotificationSettings):
     NOTIFICATION_SCAN_INTERVAL_MINUTES: int = 30
     NOTIFICATION_LOOKAHEAD_DAYS: int = 14
     NOTIFICATION_MAX_RETRIES: int = 3
@@ -64,6 +70,7 @@ class SecuritySettings(BaseSettings):
 
 
 notification_settings = NotificationSettings()
+user_notification_settings = UserNotificationSettings()
 db_settings = DatabaseSettings()
 security_settings = SecuritySettings()
 app_settings = AppSettings()
