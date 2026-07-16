@@ -9,6 +9,7 @@ from app.core.config import notification_settings
 from app.core.session import engine
 from app.repositories.notification_repository import NotificationRepository
 from app.routers.events import router as events_router
+from app.routers.users import router as users_router
 from app.routers.subscribers import router as subscribers_router
 from app.services.channels.email import EmailNotificationChannel
 from app.services.notification_service import NotificationOrchestratorService
@@ -57,6 +58,7 @@ app = FastAPI(lifespan=lifespan, title="Academic Notification Service", docs_url
 
 app.include_router(subscribers_router)
 app.include_router(events_router)
+app.include_router(users_router)
 
 
 app.frontend(path="/", directory="frontend/dist")
