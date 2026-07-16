@@ -3,7 +3,6 @@ from pathlib import Path
 from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 PROJECT_DIR = BASE_DIR.parent
 _base_config = SettingsConfigDict(
@@ -11,6 +10,11 @@ _base_config = SettingsConfigDict(
     env_ignore_empty=True,
     extra="ignore",
 )
+
+
+class AppSettings(BaseSettings):
+    APP_NAME: str = "Pharmafly"
+    APP_DOMAIN: str = "http://localhost:8000"
 
 
 class NotificationSettings(BaseSettings):
@@ -51,5 +55,15 @@ class DatabaseSettings(BaseSettings):
         return f"postgresql+psycopg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
 
+class SecuritySettings(BaseSettings):
+    JWT_SECRET_KEY: str
+    JWT_ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+
+    model_config = _base_config
+
+
 notification_settings = NotificationSettings()
 db_settings = DatabaseSettings()
+security_settings = SecuritySettings()
+app_settings = AppSettings()
