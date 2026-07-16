@@ -8,7 +8,7 @@ from app.services.academic_service import (
     ResourceNotFoundError,
 )
 
-router = APIRouter(prefix="/subscribers", tags=["subscribers"])
+router = APIRouter(prefix="/subscribers", tags=["Subscribers"])
 
 
 @router.post("", response_model=SubscriberRead, status_code=status.HTTP_201_CREATED)

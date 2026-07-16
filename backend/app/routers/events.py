@@ -8,7 +8,7 @@ from app.services.academic_service import (
     ResourceNotFoundError,
 )
 
-router = APIRouter(prefix="/events", tags=["events"])
+router = APIRouter(prefix="/events", tags=["Events"])
 
 
 @router.post("", response_model=EventRead, status_code=status.HTTP_201_CREATED)
