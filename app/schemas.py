@@ -82,7 +82,7 @@ class EventCreate(SQLModel):
     end_date: datetime | None = None
     notification_days_before: int | None = None
     notification_offsets: list[int] | None = None
-    email_template: EventEmailTemplate = EventEmailTemplate.EVENT_REMINDER
+    email_template: EventEmailTemplate
     is_active: bool = True
 
 

@@ -49,7 +49,9 @@ class AcademicService:
 
     def create_event(self, payload: EventCreate) -> Event:
         self._validate_offsets(payload.notification_offsets)
-        return self.repository.create_event(Event.model_validate(payload))
+        event_data = payload.model_dump()
+        event_data["email_template"] = str(payload.email_template)
+        return self.repository.create_event(Event.model_validate(event_data))
 
     def list_events(self) -> list[Event]:
         return self.repository.list_events()

@@ -77,4 +77,5 @@ async def run_notifications_now():
     await run_notification_cycle()
     return {"status": "ok"}
 
+
 app.frontend(path="/", directory="frontend/dist")
