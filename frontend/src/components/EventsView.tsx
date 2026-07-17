@@ -16,11 +16,10 @@ export default function EventsView() {
     const data = await api.getEvents();
     setEvents(data);
   };
-  
+
   useEffect(() => {
     loadEvents();
   }, []);
-
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,40 +64,99 @@ export default function EventsView() {
       </div>
 
       {showForm && (
-        <form onSubmit={handleCreate} className="bg-white p-6 rounded shadow mb-6 border">
+        <form
+          onSubmit={handleCreate}
+          className="bg-white p-6 rounded shadow mb-6 border"
+        >
           <div className="grid grid-cols-2 gap-4">
-            <input required placeholder="Title" className="border p-2 rounded"
-              onChange={e => setFormData({...formData, title: e.target.value})} />
+            <input
+              required
+              placeholder="Title"
+              className="border p-2 rounded"
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+            />
 
-            <input required placeholder="Description" className="border p-2 rounded"
-              onChange={e => setFormData({...formData, description: e.target.value})} />
+            <input
+              required
+              placeholder="body"
+              className="border p-2 rounded"
+              onChange={(e) =>
+                setFormData({ ...formData, body: e.target.value })
+              }
+            />
 
             <div className="flex flex-col">
               <label className="text-sm text-gray-600">Start Date</label>
-              <input type="datetime-local" required className="border p-2 rounded"
-                onChange={e => setFormData({...formData, start_date: new Date(e.target.value).toISOString()})} />
+              <input
+                type="datetime-local"
+                required
+                className="border p-2 rounded"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    start_date: new Date(e.target.value).toISOString(),
+                  })
+                }
+              />
             </div>
 
             <div className="flex flex-col">
               <label className="text-sm text-gray-600">End Date</label>
-              <input type="datetime-local" className="border p-2 rounded"
-                onChange={e => setFormData({...formData, end_date: new Date(e.target.value).toISOString()})} />
+              <input
+                type="datetime-local"
+                className="border p-2 rounded"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    end_date: new Date(e.target.value).toISOString(),
+                  })
+                }
+              />
             </div>
 
-            <input type="number" placeholder="Notification Days Before" className="border p-2 rounded"
-              onChange={e => setFormData({...formData, notification_days_before: parseInt(e.target.value)})} />
+            <input
+              type="number"
+              placeholder="Notification Days Before"
+              className="border p-2 rounded"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  notification_days_before: parseInt(e.target.value),
+                })
+              }
+            />
 
-            <input placeholder="Offsets (comma separated, e.g., 1,3,7)" className="border p-2 rounded"
-              value={offsetsInput} onChange={e => setOffsetsInput(e.target.value)} />
+            <input
+              placeholder="Offsets (comma separated, e.g., 1,3,7)"
+              className="border p-2 rounded"
+              value={offsetsInput}
+              onChange={(e) => setOffsetsInput(e.target.value)}
+            />
 
-            <select className="border p-2 rounded"
-              onChange={e => setFormData({...formData, email_template: e.target.value as EventEmailTemplate})}>
-              {Object.values(EventEmailTemplate).map(tpl => (
-                <option key={tpl} value={tpl}>{tpl}</option>
+            <select
+              className="border p-2 rounded"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  email_template: e.target.value as EventEmailTemplate,
+                })
+              }
+            >
+              {Object.values(EventEmailTemplate).map((tpl) => (
+                <option key={tpl} value={tpl}>
+                  {tpl}
+                </option>
               ))}
             </select>
           </div>
-          <button type="submit" className="mt-4 bg-green-600 text-white px-4 py-2 rounded">Submit</button>
+          <button
+            type="submit"
+            className="mt-4 bg-green-600 text-white px-4 py-2 rounded"
+          >
+            Submit
+          </button>
         </form>
       )}
 
@@ -117,18 +175,30 @@ export default function EventsView() {
             {events.map((event) => (
               <tr key={event.id} className="border-b">
                 <td className="p-3">{event.title}</td>
-                <td className="p-3">{new Date(event.start_date).toLocaleDateString()}</td>
+                <td className="p-3">
+                  {new Date(event.start_date).toLocaleDateString()}
+                </td>
                 <td className="p-3">{event.email_template}</td>
                 <td className="p-3">
-                  <span className={`px-2 py-1 rounded text-xs text-white ${event.is_active ? 'bg-green-500' : 'bg-red-500'}`}>
+                  <span
+                    className={`px-2 py-1 rounded text-xs text-white ${event.is_active ? "bg-green-500" : "bg-red-500"}`}
+                  >
                     {event.is_active ? "Active" : "Inactive"}
                   </span>
                 </td>
                 <td className="p-3 space-x-2">
-                  <button onClick={() => toggleStatus(event.id, event.is_active)} className="text-blue-600 hover:underline">
+                  <button
+                    onClick={() => toggleStatus(event.id, event.is_active)}
+                    className="text-blue-600 hover:underline"
+                  >
                     Toggle Status
                   </button>
-                  <button onClick={() => handleDelete(event.id)} className="text-red-600 hover:underline">Delete</button>
+                  <button
+                    onClick={() => handleDelete(event.id)}
+                    className="text-red-600 hover:underline"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

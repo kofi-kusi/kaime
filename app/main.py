@@ -2,15 +2,15 @@ import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from sqlmodel import Session
 from scalar_fastapi import get_scalar_api_reference
+from sqlmodel import Session
 
 from app.core.config import notification_settings
 from app.core.session import engine
 from app.repositories.notification_repository import NotificationRepository
 from app.routers.events import router as events_router
-from app.routers.users import router as users_router
 from app.routers.subscribers import router as subscribers_router
+from app.routers.users import router as users_router
 from app.services.channels.email import EmailNotificationChannel
 from app.services.notification_service import NotificationOrchestratorService
 from app.services.scheduler_service import SchedulerService
@@ -54,7 +54,12 @@ async def lifespan(app: FastAPI):
     logger.info("Application shutdown complete")
 
 
-app = FastAPI(lifespan=lifespan, title="Academic Notification Service", docs_url=None, redoc_url=None)
+app = FastAPI(
+    lifespan=lifespan,
+    title="Academic Notification Service",
+    docs_url=None,
+    redoc_url=None,
+)
 
 app.include_router(subscribers_router)
 app.include_router(events_router)
@@ -63,12 +68,13 @@ app.include_router(users_router)
 
 app.frontend(path="/", directory="frontend/dist")
 
+
 @app.get("/docs", include_in_schema=False)
 def get_scalar_docs():
     return get_scalar_api_reference(openapi_url=app.openapi_url)
+
 
 @app.post("/internal/notifications/run")
 async def run_notifications_now():
     await run_notification_cycle()
     return {"status": "ok"}
-

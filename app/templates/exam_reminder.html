@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<body>
-  <p>Hello {{ student_name }},</p>
-  <p>Your exam event <strong>{{ event_title }}</strong> is approaching.</p>
-  <p>{{ description }}</p>
-  <p>Scheduled start: {{ start_date }}</p>
-  {% if end_date %}
-  <p>Scheduled end: {{ end_date }}</p>
-  {% endif %}
-</body>
+  <body>
+    <p>Hello {{ student_name }},</p>
+    <p>Your exam event <strong>{{ event_title }}</strong> is approaching.</p>
+    <p>{{ body }}</p>
+    <p>Scheduled start: {{ start_date }}</p>
+    {% if end_date %}
+    <p>Scheduled end: {{ end_date }}</p>
+    {% endif %}
+  </body>
 </html>

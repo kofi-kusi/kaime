@@ -53,7 +53,7 @@ class Event(SQLModel, table=True):
 
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str
-    description: str
+    body: str
     start_date: datetime
     end_date: datetime | None = Field(default=None)
     notification_days_before: int | None = Field(default=None)

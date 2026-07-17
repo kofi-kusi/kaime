@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<body>
-  <p>Hello {{ student_name }},</p>
-  <p><strong>{{ event_title }}</strong> is closing soon.</p>
-  <p>{{ description }}</p>
-  <p>Days remaining: {{ days_remaining }}</p>
-  <p>End: {{ end_date or start_date }}</p>
-</body>
+  <body>
+    <p>Hello {{ student_name }},</p>
+    <p><strong>{{ event_title }}</strong> is closing soon.</p>
+    <p>{{ body }}</p>
+    <p>Days remaining: {{ days_remaining }}</p>
+    <p>End: {{ end_date or start_date }}</p>
+  </body>
 </html>

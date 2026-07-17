@@ -12,7 +12,6 @@ TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
 def generate_url_safe_token(data: dict) -> str | None:
     return _serializer.dumps(data)
 
-
 def decode_url_safe_token(token: str, max_age: int = 3600) -> dict:
     try:
         data = _serializer.loads(token, max_age=max_age)

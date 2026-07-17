@@ -13,7 +13,8 @@ export const EventEmailTemplate = {
 } as const;
 
 // This extracts the values into a reusable TypeScript type
-export type EventEmailTemplate = typeof EventEmailTemplate[keyof typeof EventEmailTemplate];
+export type EventEmailTemplate =
+  (typeof EventEmailTemplate)[keyof typeof EventEmailTemplate];
 
 export interface Subscriber {
   email: string;
@@ -26,7 +27,7 @@ export interface Subscriber {
 export interface Event {
   id: number;
   title: string;
-  description: string;
+  body: string;
   start_date: string;
   end_date?: string;
   notification_days_before?: number;
@@ -75,7 +76,9 @@ export const api = {
   },
   toggleEventStatus: async (id: number, activate: boolean): Promise<Event> => {
     const action = activate ? "activate" : "deactivate";
-    const res = await fetch(`${API_BASE}events/${id}/${action}`, { method: "PATCH" });
+    const res = await fetch(`${API_BASE}events/${id}/${action}`, {
+      method: "PATCH",
+    });
     return res.json();
   },
   deleteEvent: async (id: number): Promise<void> => {

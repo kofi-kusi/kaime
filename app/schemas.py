@@ -77,7 +77,7 @@ class SubscriberRead(SQLModel):
 
 class EventCreate(SQLModel):
     title: str
-    description: str
+    body: str
     start_date: datetime
     end_date: datetime | None = None
     notification_days_before: int | None = None
@@ -88,7 +88,7 @@ class EventCreate(SQLModel):
 
 class EventUpdate(SQLModel):
     title: str | None = None
-    description: str | None = None
+    body: str | None = None
     start_date: datetime | None = None
     end_date: datetime | None = None
     notification_days_before: int | None = None
@@ -100,7 +100,7 @@ class EventUpdate(SQLModel):
 class EventRead(SQLModel):
     id: int
     title: str
-    description: str
+    body: str
     start_date: datetime
     end_date: datetime | None
     notification_days_before: int | None

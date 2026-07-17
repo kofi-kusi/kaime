@@ -1,5 +1,5 @@
-import logging
 import asyncio
+import logging
 from datetime import datetime, timedelta, timezone
 
 from app.core.config import NotificationSettings
@@ -35,7 +35,9 @@ class NotificationOrchestratorService:
         subscribers = self.repository.get_subscribers()
 
         for event in events:
-            await self._process_event(event=event, subscribers=subscribers, now=current_time)
+            await self._process_event(
+                event=event, subscribers=subscribers, now=current_time
+            )
 
     async def _process_event(
         self,
@@ -70,7 +72,7 @@ class NotificationOrchestratorService:
             context = {
                 "student_name": subscriber.full_name,
                 "event_title": event.title,
-                "description": event.description,
+                "body": event.body,
                 "start_date": event.start_date,
                 "end_date": event.end_date,
                 "days_remaining": days_remaining,
@@ -115,12 +117,19 @@ class NotificationOrchestratorService:
         if configured:
             return {value for value in configured if value >= 0}
 
-        if event.notification_days_before is not None and event.notification_days_before >= 0:
+        if (
+            event.notification_days_before is not None
+            and event.notification_days_before >= 0
+        ):
             return {event.notification_days_before}
 
-        return {value for value in self.settings.NOTIFICATION_DEFAULT_OFFSETS if value >= 0}
+        return {
+            value for value in self.settings.NOTIFICATION_DEFAULT_OFFSETS if value >= 0
+        }
 
-    async def _send_with_retry(self, *, subject: str, recipient: str, html_body: str) -> None:
+    async def _send_with_retry(
+        self, *, subject: str, recipient: str, html_body: str
+    ) -> None:
         max_retries = max(1, self.settings.NOTIFICATION_MAX_RETRIES)
         backoff = max(1, self.settings.NOTIFICATION_RETRY_BACKOFF_SECONDS)
 

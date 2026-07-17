@@ -1,12 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        height: 100vh;
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px auto;
+    }
+    header {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+
+    }
+    #title {
+        text-decoration: underline;
+        text-transform: uppercase;
+    }
+    main {
+        margin: 40px 0;
+    }
+    footer {
+        background-color: #f8f9fa;
+        margin-top: 20px;
+        border-top: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+
+    }
+    footer p a {
+        text-decoration: none;
+        color: #007BFF;
+    }
+    </style>
+</head>
 <body>
-  <p>Hello {{ student_name }},</p>
-  <p><strong>{{ event_title }}</strong></p>
-  <p>{{ description }}</p>
-  <p>Date: {{ start_date }}</p>
-  {% if end_date %}
-  <p>Valid until: {{ end_date }}</p>
-  {% endif %}
+    <header>
+        <img src="assets/kstu-logo.png" alt="Logo">
+    </header>
+    <main>
+        <p>Hello <strong>{{ student_name }}</strong>,</p>
+        <h3 id="title"><strong>{{ event_title }}</strong></h3>
+        <p>{{ body }}</p>
+        <p>Date: {{ start_date }}</p>
+        {% if end_date %}
+        <p>Valid until: {{ end_date }}</p>
+        {% endif %}
+    </main>
+  <footer>
+    <p><a href="mailto:appaukusi05@gmail.com">Contact Us</a></p>
+    <p><strong>KSTU Team</strong></p>
+  </footer>
 </body>
 </html>
