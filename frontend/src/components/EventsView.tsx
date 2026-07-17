@@ -72,18 +72,9 @@ export default function EventsView() {
             <input
               required
               placeholder="Title"
-              className="border p-2 rounded"
+              className="border p-2 rounded col-span-full"
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
-              }
-            />
-
-            <input
-              required
-              placeholder="body"
-              className="border p-2 rounded"
-              onChange={(e) =>
-                setFormData({ ...formData, body: e.target.value })
               }
             />
 
@@ -150,6 +141,16 @@ export default function EventsView() {
                 </option>
               ))}
             </select>
+
+            <textarea
+              required
+              placeholder="body"
+              rows={5}
+              className="border p-2 rounded col-span-full"
+              onChange={(e) =>
+                setFormData({ ...formData, body: e.target.value })
+              }
+            />
           </div>
           <button
             type="submit"

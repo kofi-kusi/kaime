@@ -61,12 +61,10 @@ app = FastAPI(
     redoc_url=None,
 )
 
+
 app.include_router(subscribers_router)
 app.include_router(events_router)
 app.include_router(users_router)
-
-
-app.frontend(path="/", directory="frontend/dist")
 
 
 @app.get("/docs", include_in_schema=False)
@@ -78,3 +76,5 @@ def get_scalar_docs():
 async def run_notifications_now():
     await run_notification_cycle()
     return {"status": "ok"}
+
+app.frontend(path="/", directory="frontend/dist")
