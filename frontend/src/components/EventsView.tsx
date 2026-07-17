@@ -30,7 +30,7 @@ export default function EventsView() {
           ? offsetsInput.split(",").map((n) => parseInt(n.trim(), 10))
           : undefined,
       } as EventCreate;
-
+      console.log(payload);
       await api.createEvent(payload);
       setShowForm(false);
       loadEvents();
@@ -128,6 +128,7 @@ export default function EventsView() {
 
             <select
               className="border p-2 rounded"
+              value={formData.email_template}
               onChange={(e) =>
                 setFormData({
                   ...formData,
