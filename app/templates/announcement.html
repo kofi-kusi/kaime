@@ -1,62 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <style>
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        height: 100vh;
-        width: 80%;
-        margin: 0 auto;
-        padding: 20px auto;
-    }
-    header {
-        display: flex;
-        align-content: center;
-        justify-content: center;
-    }
-    header img {
-        max-width: 150px;
-        height: auto;
-    }
-    #title {
-        text-decoration: underline;
-        text-transform: uppercase;
-    }
-    main {
-        margin: 40px 0;
-    }
-    footer {
-        background-color: #f8f9fa;
-        margin-top: 20px;
-        border-top: 1px solid #ccc;
-        padding: 10px;
-        text-align: center;
+<meta charset="UTF-8">
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    }
-    footer p a {
-        text-decoration: none;
-        color: #007BFF;
-    }
-    </style>
+body {
+    margin: 0;
+    padding: 40px 20px;
+    background: #f4f6f9;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+}
+
+.container {
+    max-width: 650px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+}
+
+header {
+    text-align: center;
+    padding: 30px 20px 20px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+header img {
+    width: 110px;
+    height: auto;
+}
+
+main {
+    padding: 35px;
+}
+
+main p {
+    margin: 16px 0;
+    line-height: 1.7;
+}
+
+#title {
+    text-align: center;
+    text-transform: uppercase;
+    color: #0056b3;
+    margin: 25px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0056b3;
+}
+
+.info-box {
+    margin-top: 30px;
+    padding: 18px;
+    background: #f8f9fc;
+    border-left: 4px solid #0056b3;
+    border-radius: 4px;
+}
+
+.info-box p {
+    margin: 8px 0;
+}
+
+footer {
+    background: #fafafa;
+    border-top: 1px solid #e5e5e5;
+    padding: 25px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+footer a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+</style>
 </head>
+
 <body>
-    <header>
-        <img src="https://images.seeklogo.com/logo-png/35/1/kumasi-technical-university-logo-png_seeklogo-350386.png" alt="Logo">
-    </header>
-    <main>
-        <p>Hello <strong>{{ student_name }}</strong>,</p>
-        <h3 id="title"><strong>{{ event_title }}</strong></h3>
-        <p>{{ body }}</p>
-        <p>Date: {{ start_date }}</p>
-        {% if end_date %}
-        <p>Valid until: {{ end_date }}</p>
-        {% endif %}
-    </main>
-  <footer>
-    <p><a href="mailto:appaukusi05@gmail.com">Contact Us</a></p>
-    <p><strong>KSTU Team</strong></p>
-  </footer>
+
+<div class="container">
+
+<header>
+    <img src="https://images.seeklogo.com/logo-png/35/1/kumasi-technical-university-logo-png_seeklogo-350386.png" alt="KsTU Logo">
+</header>
+
+<main>
+
+<p>Hello <strong>{{ student_name }}</strong>,</p>
+
+<h2 id="title">{{ event_title }}</h2>
+
+<p>{{ body }}</p>
+
+<p>
+    Please take note of this announcement and act accordingly where necessary.
+    We encourage you to stay informed by regularly checking your university email
+    for future updates.
+</p>
+
+<p>
+    Thank you for your attention.
+</p>
+
+<div class="info-box">
+    <p><strong>Date:</strong> {{ start_date }}</p>
+
+    {% if end_date %}
+    <p><strong>Valid Until:</strong> {{ end_date }}</p>
+    {% endif %}
+</div>
+
+</main>
+
+<footer>
+    <p><a href="mailto:stefanoarhin61@gmail.com">Contact Us</a></p>
+    <p><strong>KsTU Team</strong></p>
+</footer>
+
+</div>
+
 </body>
 </html>
