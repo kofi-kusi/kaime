@@ -6,7 +6,7 @@ export default function Dashboard() {
   return (
     <div className="flex bg-app-bg min-h-screen text-app-text">
       <Sidebar />
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 lg:max-w-7/10 lg:mx-auto">
         <header className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-app-text-h">Dashboard</h1>

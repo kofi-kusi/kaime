@@ -44,11 +44,11 @@ const API_BASE = "/";
 export const api = {
   // Subscribers
   getSubscribers: async (): Promise<Subscriber[]> => {
-    const res = await fetch(`${API_BASE}subscribers`);
+    const res = await fetch(`${API_BASE}dashboard/subscribers`);
     return res.json();
   },
   createSubscriber: async (data: Subscriber): Promise<Subscriber> => {
-    const res = await fetch(`${API_BASE}subscribers`, {
+    const res = await fetch(`${API_BASE}dashboard/subscribers`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -57,16 +57,16 @@ export const api = {
     return res.json();
   },
   deleteSubscriber: async (email: string): Promise<void> => {
-    await fetch(`${API_BASE}subscribers/${email}`, { method: "DELETE" });
+    await fetch(`${API_BASE}dashboard/subscribers/${email}`, { method: "DELETE" });
   },
 
   // Events
   getEvents: async (): Promise<Event[]> => {
-    const res = await fetch(`${API_BASE}events`);
+    const res = await fetch(`${API_BASE}dashboard/events`);
     return res.json();
   },
   createEvent: async (data: EventCreate): Promise<Event> => {
-    const res = await fetch(`${API_BASE}events`, {
+    const res = await fetch(`${API_BASE}dashboard/events`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -76,12 +76,12 @@ export const api = {
   },
   toggleEventStatus: async (id: number, activate: boolean): Promise<Event> => {
     const action = activate ? "activate" : "deactivate";
-    const res = await fetch(`${API_BASE}events/${id}/${action}`, {
+    const res = await fetch(`${API_BASE}dashboard/events/${id}/${action}`, {
       method: "PATCH",
     });
     return res.json();
   },
   deleteEvent: async (id: number): Promise<void> => {
-    await fetch(`${API_BASE}events/${id}`, { method: "DELETE" });
+    await fetch(`${API_BASE}dashboard/events/${id}`, { method: "DELETE" });
   },
 };
