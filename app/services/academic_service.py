@@ -60,6 +60,8 @@ class AcademicService:
         event = self.repository.get_event(event_id)
         if event is None:
             raise ResourceNotFoundError(f"Event with id {event_id} was not found.")
+        event_dict = event.model_dump()
+        event.sqlmodel_update({"body": f"{event_dict['body'][:50]}..."})
         return event
 
     def update_event(self, event_id: int, payload: EventUpdate) -> Event:
