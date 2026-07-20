@@ -57,7 +57,7 @@ class SubscriberCreate(SQLModel):
     program: str
     email: str
     surname: str
-    other_names: str
+    other_names: str | None
 
 
 class SubscriberUpdate(SQLModel):

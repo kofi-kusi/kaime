@@ -38,7 +38,7 @@ class Subscriber(SQLModel, table=True):
     program: str
     email: str = Field(primary_key=True)
     surname: str = Field(index=True)
-    other_names: str = Field(index=True)
+    other_names: str | None = Field(index=True)
 
     @property
     def full_name(self) -> str:
