@@ -98,7 +98,7 @@ export default function EventsView() {
 
               <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium text-app-text">
-                  End Date
+                  End Date (optional)
                 </label>
                 <input
                   type="datetime-local"

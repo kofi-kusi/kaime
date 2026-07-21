@@ -9,9 +9,9 @@ class AcademicRepository:
 
     def create_subscriber(self, subscriber: Subscriber) -> Subscriber:
         subscriber_dict = subscriber.model_dump()
+        subscriber_dict["email"] = subscriber_dict["email"].strip()
         subscriber = Subscriber(
             **subscriber_dict,
-            email = subscriber_dict["email"].strip(),
         )
         self.session.add(subscriber)
         self.session.commit()

@@ -56,7 +56,7 @@ class Event(SQLModel, table=True):
     body: str
     start_date: datetime
     end_date: datetime | None = Field(default=None)
-    notification_days_before: int | None = Field(default=None)
+    notification_days_before: int | None = Field(default=None, gt=-1)
     notification_offsets: list[int] | None = Field(
         default=None,
         sa_column=Column(JSON, nullable=True),

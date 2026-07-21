@@ -79,8 +79,7 @@ export default function SubscribersView() {
                 }
               />
               <input
-                required
-                placeholder="Other Names"
+                placeholder="Other Names (optional)"
                 className="w-full p-3 rounded-lg border border-app-border bg-app-bg focus:ring-2 focus:ring-app-accent outline-none"
                 onChange={(e) =>
                   setFormData({ ...formData, other_names: e.target.value })
